@@ -28,6 +28,9 @@ protected:
 
 
 	int const _dim;
+
+  RealTensorValue _I;
+
 	MaterialProperty<Real> const & _mu;
   MaterialProperty<Real> const & _lambda;
 

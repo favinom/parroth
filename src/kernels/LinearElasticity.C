@@ -8,6 +8,7 @@
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
 #include "LinearElasticity.h"
+#include "myHelpers.h"
 
 registerMooseObject("parrothApp", LinearElasticity);
 
@@ -39,37 +40,32 @@ _id_x(coupled("disp_x")),
 _id_y(coupled("disp_y")),
 _id_z(_dim>2 ? coupled("disp_z") : -999999)
  {
- std::cout << _dim << std::endl;
- }
+ _I.zero();
+ for(int i=0;i<3;++i)
+ 	_I(i,i)=1.0;
+}
 
 Real
 LinearElasticity::computeQpResidual()
 {
 RealTensorValue U;
 RealTensorValue eps;
-RealTensorValue I;
 RealTensorValue sigma;
 RealTensorValue V;
+V.zero();
 Real treps;
 U(0,0) = _grad_disp_x[_qp](0); U(0,1) = _grad_disp_x[_qp](1); U(0,2) = _grad_disp_x[_qp](2);
 U(1,0) = _grad_disp_y[_qp](0); U(1,1) = _grad_disp_y[_qp](1); U(1,2) = _grad_disp_y[_qp](2);
 U(2,0) = _grad_disp_z[_qp](0); U(2,1) = _grad_disp_z[_qp](1); U(2,2) = _grad_disp_z[_qp](2);
 eps = (U+U.transpose())/2.0;
-for(int i=0;i<3;++i){
-	for (int j=0;j<3;++j){
-	I(i,j) = (i==j);
-	V(i,j) = 0;
-	}
-}
-if(_dim == 2){
-	I(2,2) = 0.0;
-}
+
 
 treps = eps.tr();
 
-sigma = 2*_mu[_qp]*eps + _lambda[_qp]*treps*I;
+sigma = 2.0*_mu[_qp]*eps + _lambda[_qp]*treps*_I;
 
-V(_component,0) = _grad_test[_i][_qp](0); V(_component,1) = _grad_test[_i][_qp](1); V(_component,2) = _grad_test[_i][_qp](2);
+
+fillRowOfTensor(_grad_test[_i][_qp],_component,V);
 
   return sigma.contract(V);
 }
@@ -80,33 +76,21 @@ LinearElasticity::computeQpJacobian()
 {
 RealTensorValue H;
 RealTensorValue epsH;
-RealTensorValue I;
 RealTensorValue V;
 RealTensorValue sigmaH;
 Real trepsH;
 
-for(int i=0;i<3;++i){
-	for (int j=0;j<3;++j){
-	I(i,j) = (i==j);
-	H(i,j) = 0;
-	V(i,j) = 0;
-	}
-}
+H.zero();
+V.zero();
 
-H(_component,0) = _grad_phi[_j][_qp](0); H(_component,1) = _grad_phi[_j][_qp](1); H(_component,2) = _grad_phi[_j][_qp](2);
-
-if(_dim == 2){
-	I(2,2) = 0.0;
-	H(_component,2) = 0.0;
-}
+fillRowOfTensor(_grad_phi[_j][_qp],_component,H);
+fillRowOfTensor(_grad_test[_i][_qp],_component,V);
 
 epsH = (H+H.transpose())/2.0;
 
 trepsH = epsH.tr();
 
-sigmaH = 2*_mu[_qp]*epsH + _lambda[_qp]*trepsH*I;
-
-V(_component,0) = _grad_test[_i][_qp](0); V(_component,1) = _grad_test[_i][_qp](1); V(_component,2) = _grad_test[_i][_qp](2);
+sigmaH = 2.0*_mu[_qp]*epsH + _lambda[_qp]*trepsH*_I;
 
   return sigmaH.contract(V);
 }
@@ -116,11 +100,15 @@ Real
 LinearElasticity::computeQpOffDiagJacobian(unsigned int jvar) 
 {
 RealTensorValue H;
-RealTensorValue epsH;
-RealTensorValue I;
 RealTensorValue V;
+
+RealTensorValue epsH;
 RealTensorValue sigmaH;
 Real trepsH;
+
+H.zero();
+V.zero();
+
 int componentH;
 
 if(jvar == _id_x){
@@ -135,27 +123,16 @@ if(jvar == _id_z){
 	componentH = 2;
 }
 
-for(int i=0;i<3;++i){
-	for (int j=0;j<3;++j){
-	I(i,j) = (i==j);
-	H(i,j) = 0;
-	V(i,j) = 0;
-	}
-}
-if(_dim == 2){
-	I(2,2) = 0.0;
-}
 
-H(componentH,0) = _grad_phi[_j][_qp](0); H(componentH,1) = _grad_phi[_j][_qp](1); H(componentH,2) = _grad_phi[_j][_qp](2);
-
+fillRowOfTensor(_grad_phi[_j][_qp] ,componentH,H);
+fillRowOfTensor(_grad_test[_i][_qp],_component,V);
 
 epsH = (H+H.transpose())/2.0;
 
 trepsH = epsH.tr();
 
-sigmaH = 2*_mu[_qp]*epsH + _lambda[_qp]*trepsH*I;
+sigmaH = 2.0*_mu[_qp]*epsH + _lambda[_qp]*trepsH*_I;
 
-V(_component,0) = _grad_test[_i][_qp](0); V(_component,1) = _grad_test[_i][_qp](1); V(_component,2) = _grad_test[_i][_qp](2);
 
 return sigmaH.contract(V);
 
