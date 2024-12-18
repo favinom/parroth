@@ -29,8 +29,8 @@
 [BCs]
  [left_x] type = DirichletBC value = 0 variable = disp_x boundary = left []
  [left_y] type = DirichletBC value = 0 variable = disp_y boundary = left []
- [right_x] type = DirichletBC value = 0.01 variable = disp_x boundary = right []
- [right_y] type = DirichletBC value = 0.01 variable = disp_y boundary = right []
+ [right_x] type = DirichletBC value = 0.1 variable = disp_x boundary = right []
+ [right_y] type = DirichletBC value = 0.1 variable = disp_y boundary = right []
 []
 
 

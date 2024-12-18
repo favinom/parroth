@@ -28,12 +28,8 @@
 []
 
 [Kernels]
- [lex]
-  type = LinearElasticity variable = disp_x disp_x = disp_x disp_y = disp_y component = 0
- []
- [ley]
-  type = LinearElasticity variable = disp_y disp_x = disp_x disp_y = disp_y component = 1
- []
+ [lex] type = LinearElasticity variable = disp_x disp_x = disp_x disp_y = disp_y component = 0 []
+ [ley] type = LinearElasticity variable = disp_y disp_x = disp_x disp_y = disp_y component = 1 []
 []
 
 [Materials]
@@ -97,7 +93,7 @@
 []
 
 [Outputs]
-  file_base = solution2
+  file_base = inter_fracture
   print_linear_residuals = false
   exodus = true
 #  xda = true
