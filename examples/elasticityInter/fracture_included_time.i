@@ -50,14 +50,30 @@
 
 
 [InterfaceKernels]
- [sigma_xx_jump] type = sigma_xx_jump eps=1e-3 mu=0.001 variable = disp_x neighbor_var = disp_x
-                 disp_y = disp_y boundary = 'Block1_Block2' []
- [sigma_yx_jump] type = sigma_yx_jump eps=1e-3 mu=0.001 variable = disp_y neighbor_var = disp_y
-                 boundary = 'Block1_Block2' []
- [sigma_xx_mean] type = sigma_xx_mean eps=1e-3 mu=0.001 variable = disp_x neighbor_var = disp_x
-		 boundary = 'Block1_Block2' []
- [sigma_yx_mean] type = sigma_yx_mean eps=1e-3 mu=0.001 variable = disp_y neighbor_var = disp_y
-		 disp_x = disp_x boundary = 'Block1_Block2' []
+[sigma_xx_jump_comp]
+ type = ElasticityInterfaceKernel eps=1e-3 mu=0.001 lambda=0.01
+ variable = disp_x neighbor_var = disp_x
+ disp_x = disp_x disp_y = disp_y boundary = 'Block1_Block2'
+ component = 0 jump = 1
+[]
+[sigma_yx_jump_comp]
+ type = ElasticityInterfaceKernel eps=1e-3 mu=0.001 lambda=0.01
+ variable = disp_y neighbor_var = disp_y
+ disp_x = disp_x disp_y = disp_y boundary = 'Block1_Block2'
+ component = 1 jump = 1
+[]
+[sigma_xx_mean_comp]
+ type = ElasticityInterfaceKernel eps=1e-3 mu=0.001 lambda=0.01
+ variable = disp_x neighbor_var = disp_x
+ disp_x = disp_x disp_y = disp_y boundary = 'Block1_Block2'
+ component = 0 jump = 0
+[]
+[sigma_yx_mean_comp]
+ type = ElasticityInterfaceKernel eps=1e-3 mu=0.001 lambda=0.01
+ variable = disp_y neighbor_var = disp_y
+ disp_x = disp_x disp_y = disp_y boundary = 'Block1_Block2'
+ component = 1 jump = 0
+[]
 []
 
 
