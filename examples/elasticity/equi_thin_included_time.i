@@ -25,8 +25,8 @@
 []
 
 [Materials]
- [./ElasticityMaterialProperties0] type = ElasticityMaterialProperties mu  = 1.0 lambda = 1.0 block = 0 [../]
- [./ElasticityMaterialProperties1] type = ElasticityMaterialProperties mu  = 0.001 lambda = 0.0 block = 1 [../]
+ [./ElasticityMaterialProperties0] type = ElasticityMaterialProperties mu  = 1.0   lambda = 1.0 disp_x = disp_x disp_y = disp_y block = 0 [../]
+ [./ElasticityMaterialProperties1] type = ElasticityMaterialProperties mu  = 0.001 lambda = 0.0 disp_x = disp_x disp_y = disp_y block = 1 [../]
 []
 
 

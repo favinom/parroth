@@ -45,7 +45,7 @@
 []
 
 [Materials]
- [./ElasticityMaterialProperties0] type = ElasticityMaterialProperties mu  = 1.0 lambda = 1.0 [../]
+ [./ElasticityMaterialProperties0] type = ElasticityMaterialProperties mu  = 1.0   lambda = 1.0 disp_x = disp_x disp_y = disp_y [../]
 []
 
 

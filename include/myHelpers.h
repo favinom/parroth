@@ -8,3 +8,4 @@ typedef libMesh::VectorValue<double> RealVectorValue;
 
 void fillRowOfTensor(RealVectorValue const & r,int const comp,RealTensorValue & V);
 
+void computeStress(RealTensorValue const & U,double const mu,double const lambda,RealTensorValue & S);

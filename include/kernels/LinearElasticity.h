@@ -26,22 +26,21 @@ protected:
   virtual Real computeQpJacobian() override;
   virtual Real computeQpOffDiagJacobian(unsigned int jvar) override;
 
-
 	int const _dim;
 
   RealTensorValue _I;
+  RealTensorValue _H;
+  RealTensorValue _V;
+  RealTensorValue _sigmaH;
 
 	MaterialProperty<Real> const & _mu;
   MaterialProperty<Real> const & _lambda;
+  MaterialProperty<RealTensorValue> const & _sigma;
 
-
-	int const _component;
-    VariableGradient const & _grad_disp_x;
-    VariableGradient const & _grad_disp_y;
-    VariableGradient const & _grad_disp_z;
-    int const _id_x;
-    int const _id_y;
-    int const _id_z;
+  int const _component;
+  int const _id_x;
+  int const _id_y;
+  int const _id_z;
   
 };
 

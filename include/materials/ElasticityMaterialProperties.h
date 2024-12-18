@@ -25,9 +25,18 @@ public:
 protected:
   virtual void computeQpProperties() override;
 
+  int const _dim;
+
+  VariableGradient const & _grad_disp_x;
+  VariableGradient const & _grad_disp_y;
+  VariableGradient const & _grad_disp_z;
   Real const _mu;
   Real const _lambda;
+
   MaterialProperty<Real> & _mu_prop;
   MaterialProperty<Real> & _lambda_prop;
+  MaterialProperty<RealTensorValue> & _sigma_prop;
+
+  RealTensorValue _U;
 
 };

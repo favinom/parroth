@@ -8,27 +8,6 @@
     iy = '20'
     subdomain_id = '0 1 0'
   [../]
-#  [./rotate]
-#    type = TransformGenerator
-#    input = gen
-#    transform = ROTATE
-#    vector_value = '0 0 45'
-#  []
-#  [block1]
-#    type = SubdomainBoundingBoxGenerator
-#    block_id = 1
-#    bottom_left = '0.0 0.0 0.0'
-#    top_right =   '0.5 1.0 0.0'
-#    input = gen
-#  []
-
-#  [breakmesh]
-#    input = block1
-#    type = BreakMeshByBlockGenerator
-#    #block_pairs = '1 2'
-#    split_interface = true
-#    #add_interface_on_two_sides = true
-#  []
 []
 
 [Variables]
@@ -46,16 +25,16 @@
 []
 
 [Materials]
- [./ElasticityMaterialProperties0] type = ElasticityMaterialProperties mu  = 1.0 lambda = 1.0 block = 0 [../]
- [./ElasticityMaterialProperties1] type = ElasticityMaterialProperties mu  = 0.001 lambda = 0.0 block = 1 [../]
+ [./ElasticityMaterialProperties0] type = ElasticityMaterialProperties mu  = 1.0   lambda = 1.0 disp_x = disp_x disp_y = disp_y block = 0 [../]
+ [./ElasticityMaterialProperties1] type = ElasticityMaterialProperties mu  = 0.001 lambda = 0.01 disp_x = disp_x disp_y = disp_y block = 1 [../]
 []
 
 
 [BCs]
  [left_x] type = DirichletBC value = 0 variable = disp_x boundary = left []
  [left_y] type = DirichletBC value = 0 variable = disp_y boundary = left []
- [right_x] type = DirichletBC value = 0.1 variable = disp_x boundary = right []
- [right_y] type = DirichletBC value = 0.1 variable = disp_y boundary = right []
+ [right_x] type = NeumannBC value = 0.01 variable = disp_x boundary = right []
+ [right_y] type = NeumannBC value = 0.01 variable = disp_y boundary = right []
 []
 
 
