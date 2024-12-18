@@ -113,7 +113,7 @@
 []
 
 [Outputs]
-  file_base = solution2
+  file_base = inter_fracture_included_time
   print_linear_residuals = false
   exodus = true
 #  xda = true
