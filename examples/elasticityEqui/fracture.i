@@ -16,12 +16,8 @@
 []
 
 [Kernels]
- [lex]
-  type = LinearElasticity variable = disp_x disp_x = disp_x disp_y = disp_y component = 0
- []
- [ley]
-  type = LinearElasticity variable = disp_y disp_x = disp_x disp_y = disp_y component = 1
- []
+ [lex] type = LinearElasticity variable = disp_x disp_x = disp_x disp_y = disp_y component = 0 []
+ [ley] type = LinearElasticity variable = disp_y disp_x = disp_x disp_y = disp_y component = 1 []
 []
 
 [Materials]
@@ -33,8 +29,8 @@
 [BCs]
  [left_x] type = DirichletBC value = 0 variable = disp_x boundary = left []
  [left_y] type = DirichletBC value = 0 variable = disp_y boundary = left []
- [right_x] type = NeumannBC value = 0.01 variable = disp_x boundary = right []
- [right_y] type = NeumannBC value = 0.01 variable = disp_y boundary = right []
+ [right_x] type = DirichletBC value = 0.01 variable = disp_x boundary = right []
+ [right_y] type = DirichletBC value = 0.01 variable = disp_y boundary = right []
 []
 
 
@@ -61,7 +57,7 @@
 []
 
 [Outputs]
-  file_base = solution
+  file_base = equi_fracture
   print_linear_residuals = false
   exodus = true
 #  xda = true

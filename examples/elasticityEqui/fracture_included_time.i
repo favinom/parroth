@@ -16,17 +16,13 @@
 []
 
 [Kernels]
- [lex]
-  type = LinearElasticity variable = disp_x disp_x = disp_x disp_y = disp_y component = 0
- []
- [ley]
-  type = LinearElasticity variable = disp_y disp_x = disp_x disp_y = disp_y component = 1
- []
+ [lex] type = LinearElasticity variable = disp_x disp_x = disp_x disp_y = disp_y component = 0 []
+ [ley] type = LinearElasticity variable = disp_y disp_x = disp_x disp_y = disp_y component = 1 []
 []
 
 [Materials]
  [./ElasticityMaterialProperties0] type = ElasticityMaterialProperties mu  = 1.0   lambda = 1.0 disp_x = disp_x disp_y = disp_y block = 0 [../]
- [./ElasticityMaterialProperties1] type = ElasticityMaterialProperties mu  = 0.001 lambda = 0.0 disp_x = disp_x disp_y = disp_y block = 1 [../]
+ [./ElasticityMaterialProperties1] type = ElasticityMaterialProperties mu  = 0.001 lambda = 0.01 disp_x = disp_x disp_y = disp_y block = 1 [../]
 []
 
 
@@ -67,7 +63,7 @@
 []
 
 [Outputs]
-  file_base = solution
+  file_base = equi_fracture_included_time
   print_linear_residuals = false
   exodus = true
 #  xda = true
